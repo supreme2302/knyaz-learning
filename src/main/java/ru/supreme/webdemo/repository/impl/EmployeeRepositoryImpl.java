@@ -11,7 +11,7 @@ import java.util.List;
 public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     /**
-     * Это поле - упрощенная версия таблица в БД.
+     * Это поле - упрощенная версия таблицы в БД.
      * В этом списке мы будем хранить всех работников
      */
     private final List<Employee> employeeList = new ArrayList<>();
