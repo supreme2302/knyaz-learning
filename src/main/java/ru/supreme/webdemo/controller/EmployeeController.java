@@ -2,9 +2,7 @@ package ru.supreme.webdemo.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.supreme.webdemo.model.Employee;
 import ru.supreme.webdemo.service.EmployeeService;
 
@@ -28,5 +26,13 @@ public class EmployeeController {
     public ResponseEntity<List<Employee>> getAllEmployees() {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.getAllEmployees());
     }
+
+    @PostMapping(value = "/create")
+    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
+        employeeService.save(employee);
+        return ResponseEntity.status(HttpStatus.CREATED).body(employee);
+    }
+
+
 }
 
