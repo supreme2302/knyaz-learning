@@ -33,4 +33,14 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     public void saveEmployee(Employee employee) {
         employeeList.add(employee);
     }
+    @Override
+    public  void deleteEmployee(Long numbId) {
+        int i = 0;
+        for(Employee e : employeeList) {
+            if (e.getId().equals(numbId)) {
+                employeeList.remove(i);
+            }
+            i++;
+        }
+    }
 }

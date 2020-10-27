@@ -28,4 +28,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void save(Employee employee) {
        employeeRepository.saveEmployee(employee);
     }
+    @Override
+    public void delete(Long id) {
+        employeeRepository.deleteEmployee(id);
+    }
 }

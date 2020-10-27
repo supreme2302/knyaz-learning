@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.supreme.webdemo.model.Employee;
 import ru.supreme.webdemo.service.EmployeeService;
 
+import java.lang.invoke.VolatileCallSite;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,11 @@ public class EmployeeController {
         employeeService.save(employee);
         return ResponseEntity.status(HttpStatus.CREATED).body(employee);
     }
-
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable(value = "id") Long id) {
+        employeeService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 }
 
