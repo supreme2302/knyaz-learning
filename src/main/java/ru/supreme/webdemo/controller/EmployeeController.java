@@ -23,7 +23,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping
+    @GetMapping(value = "/list")
     public ResponseEntity<List<Employee>> getAllEmployees() {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.getAllEmployees());
     }
@@ -38,9 +38,9 @@ public class EmployeeController {
         employeeService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-    @GetMapping("/employees")
-    public ResponseEntity<Employee> getIdEmployee(@RequestParam(value = "id") Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getIdEmployee(id));
+    @GetMapping
+    public ResponseEntity<Employee> getEmployeeById(@RequestParam(value = "id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getEmployeeById(id));
     }
 }
 

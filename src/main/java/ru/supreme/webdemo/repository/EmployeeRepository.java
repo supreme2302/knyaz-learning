@@ -11,7 +11,7 @@ public interface EmployeeRepository {
      * @return employeeList
      */
     List<Employee> findAllEmployees();
-    public void saveEmployee(Employee employee);
-    public void deleteEmployee(Long id);
-    public Employee getIdEmployee(Long id);
+    void saveEmployee(Employee employee);
+    void deleteEmployee(Long id);
+    Employee getEmployeeById(Long id);
 }
