@@ -43,4 +43,16 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             i++;
         }
     }
+    @Override
+    public Employee getIdEmployee(Long numbId) {
+        int i = 0;
+        for(Employee e : employeeList) {
+            if (e.getId().equals(numbId)) {
+                return e;
+            }
+            i++;
+        }
+        return null;
+    }
+
 }

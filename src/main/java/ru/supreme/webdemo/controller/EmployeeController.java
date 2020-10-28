@@ -38,6 +38,9 @@ public class EmployeeController {
         employeeService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
+    @GetMapping("/employees")
+    public ResponseEntity<Employee> getIdEmployee(@RequestParam(value = "id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getIdEmployee(id));
+    }
 }
 

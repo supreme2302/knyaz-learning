@@ -13,4 +13,5 @@ public interface EmployeeRepository {
     List<Employee> findAllEmployees();
     public void saveEmployee(Employee employee);
     public void deleteEmployee(Long id);
+    public Employee getIdEmployee(Long id);
 }
