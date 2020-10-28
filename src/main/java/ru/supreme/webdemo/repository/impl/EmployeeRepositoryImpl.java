@@ -29,4 +29,24 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     public List<Employee> findAllEmployees() {
         return employeeList;
     }
+    @Override
+    public void saveEmployee(Employee employee) {
+        employeeList.add(employee);
+    }
+    @Override
+    public  void deleteEmployee(Long id) {
+        for (int i = 0; i < employeeList.size(); ++i) {
+            if (employeeList.get(i).getId().equals(id))
+                employeeList.remove(i);
+        }
+    }
+    @Override
+    public Employee getEmployeeById(Long id) {
+        for (Employee employee : employeeList) {
+            if (employee.getId().equals(id))
+                return employee;
+        }
+        return null;
+    }
+
 }
