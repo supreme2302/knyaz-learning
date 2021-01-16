@@ -51,4 +51,13 @@ public class AuthorizationController {
 
         return ResponseEntity.ok(user);
     }
+    @PostMapping(value = "registr")
+    public ResponseEntity<?> registration(@RequestBody User user) {
+        if (userService.registration(user)) {
+            return ResponseEntity.status(HttpStatus.OK).body(user);
+        }
+       else {
+           return ResponseEntity.status((HttpStatus.BAD_REQUEST)).build();
+        }
+    }
 }

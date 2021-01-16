@@ -26,4 +26,19 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return false;
     }
+    // PasswordEncoder passwordEnocder = new BCryptPasswordEncoder();
+    // if (passwordEncoder.matches(rawPassword, encodedPassword)) {
+    //   System.out.println("Matched!");
+    //}
+
+    @Override
+    public boolean registrUser(User user) {
+        for (User findUser : users) {
+            if (findUser.getUsername().equals(user.getUsername())) {
+                return false;
+            }
+        }
+        users.add(user);
+        return true;
+    }
 }

@@ -18,4 +18,12 @@ public class UserServiceImpl implements UserService {
             return true;
         return false;
     }
+
+    @Override
+    public boolean registration(User user) {
+        if (userRepository.registrUser(user)) {
+            return false;
+        }
+        return true;
+    }
 }
