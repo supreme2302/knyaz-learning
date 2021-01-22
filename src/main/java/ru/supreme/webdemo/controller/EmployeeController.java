@@ -4,11 +4,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.supreme.webdemo.model.Employee;
+import ru.supreme.webdemo.model.User;
 import ru.supreme.webdemo.service.EmployeeService;
 
 import javax.servlet.http.HttpSession;
 import java.lang.invoke.VolatileCallSite;
 import java.util.List;
+
+import static ru.supreme.webdemo.WebDemoConst.USER_SESSION_ATTRIBUTE;
 
 @RestController
 @RequestMapping(path = "/employees")
@@ -30,7 +33,10 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee, HttpSession httpSession) {
+        User user = (User) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
+        if (user == null) {
+        }
         employeeService.save(employee);
         return ResponseEntity.status(HttpStatus.CREATED).body(employee);
     }
