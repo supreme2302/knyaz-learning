@@ -11,20 +11,11 @@ import java.util.List;
 public class UserRepositoryImpl implements UserRepository {
 
     private List<User> users = new ArrayList<>();
-//
-//    CREATE TABLE User (
-//    id int NOT NULL AUTO_INCREMENT,
-//    username varchar(50) NOT NULL,
-//    password varchar(50) NOT NULL,
-//    PRIMARY KEY(id)
-//    );
-//
-//    INSERT INTO User (username, password) VALUES
-
 
     public UserRepositoryImpl() {
-        users.add(new User(1L, "Egorka", "2302"));
-        users.add(new User(2L, "Sashka", "2009"));
+        users.add(new User(1L, "Egorka", "$2a$10$Ok6KrG0cfm4NAgVs3k01ZeyXPA.4F46QKNioM/6bfW9FmjlTf9ipy"));
+        users.add(new User(2L, "Sashka", "$2a$10$fWILrJG/TeqGg/QD8DiFle6QXl5Ay4R5/LFyq8S.oXuQhUtuA5FOO"));
+
     }
 
     @Override

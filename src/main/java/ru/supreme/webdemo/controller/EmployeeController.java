@@ -36,6 +36,7 @@ public class EmployeeController {
     public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
         if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(employee);
         }
         employeeService.save(employee);
         return ResponseEntity.status(HttpStatus.CREATED).body(employee);

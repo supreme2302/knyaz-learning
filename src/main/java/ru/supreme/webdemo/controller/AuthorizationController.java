@@ -30,9 +30,8 @@ public class AuthorizationController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Username or Password");
     }
-//todo заменить get на post
     
-    @GetMapping(value = "logout")
+    @PostMapping (value = "logout")
     public ResponseEntity<?> logout(HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
         if (user == null) {
