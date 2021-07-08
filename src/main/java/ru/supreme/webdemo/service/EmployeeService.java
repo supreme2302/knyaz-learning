@@ -10,5 +10,7 @@ public interface EmployeeService {
     void save(EmployeeEntity employeeEntity);
     void delete(Long id);
 
-    EmployeeEntity getEmployeeById(Long id);
+    EmployeeDTO getEmployeeById(Long id);
+
+    EmployeeEntity update(Long id, EmployeeEntity employee);
 }

@@ -32,10 +32,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeEntity> getAllEmployees() {
         return employeeRepository.findAllEmployees();
     }
+
     @Override
     public void save(EmployeeEntity employeeEntity) {
-       employeeRepository.saveEmployee(employeeEntity);
+        employeeRepository.saveEmployee(employeeEntity);
     }
+
     @Override
     public void delete(Long id) {
         employeeRepository.deleteEmployee(id);
@@ -44,5 +46,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeEntity getEmployeeById(Long id) {
         return employeeRepository.getEmployeeById(id);
+    }
+
+    @Override
+    public EmployeeEntity update(Long id, EmployeeEntity employee) {
+        EmployeeEntity updated = employeeRepository.getEmployeeById(id);
+        if (employee.getPosition() != null) {
+            updated.setPosition(employee.getPosition());
+        }
+        if (employee.getName() != null) {
+            updated.setName(employee.getName());
+        }
+        return updated;
     }
 }

@@ -42,5 +42,14 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDTO> getEmployeeById(@RequestParam(value = "id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.getEmployeeById(id));
     }
+
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<EmployeeEntity>
+    updateEmployee(@PathVariable(value = "id") Long id, @RequestBody EmployeeEntity employee) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(employeeService.update(id, employee));
+
+    }
+
+
 }
 
