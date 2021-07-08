@@ -1,16 +1,12 @@
 package ru.supreme.webdemo.repository.impl;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ru.supreme.webdemo.model.EmployeeEntity;
+import ru.supreme.webdemo.model.entity.EmployeeEntity;
 import ru.supreme.webdemo.repository.EmployeeRepository;
+import ru.supreme.webdemo.repository.rowmapper.EmployeeRowMapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -18,52 +14,54 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final EntityMapper entityMapper = new EntityMapper();
+    private final EmployeeRowMapper employeeRowMapper;
 
-    public EmployeeRepositoryImpl(JdbcTemplate jdbcTemplate) {
+    public EmployeeRepositoryImpl(JdbcTemplate jdbcTemplate, EmployeeRowMapper employeeRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.employeeRowMapper = employeeRowMapper;
     }
 
     @Override
     public List<EmployeeEntity> findAllEmployees() {
-        return jdbcTemplate.query("select id as employee_id, name, position, salary, department_id from employee", entityMapper);
+        return jdbcTemplate.query("select id as employee_id, name, position, salary, department_id " +
+                        "from employee order by id asc",
+                employeeRowMapper);
     }
 
     @Override
-    public void saveEmployee(EmployeeEntity employeeEntity) {
+    public EmployeeEntity save(EmployeeEntity employeeEntity) {
         jdbcTemplate.update("insert into employee(department_id, name, position, salary) values (?, ?, ?, ?)",
-                employeeEntity.getDepartmentId(), employeeEntity.getName(), employeeEntity.getPosition(), employeeEntity.getSalary());
+                employeeEntity.getDepartmentId(),
+                employeeEntity.getName(),
+                employeeEntity.getPosition(),
+                employeeEntity.getSalary());
+        return employeeEntity;
     }
 
     @Override
-    public void deleteEmployee(Long id) {
-
+    public void delete(Long id) {
+        jdbcTemplate.update("delete from employee where id = ?", id);
     }
 
     @Override
-    public EmployeeEntity getEmployeeById(Long id) {
+    public EmployeeEntity findEmployeeById(Long id) {
         try {
-            return jdbcTemplate.queryForObject("select id as employee_id, name, position, salary, department_id from employee where id = ?",
-                    entityMapper, id);
+            return jdbcTemplate.queryForObject("select id as employee_id, name, position, salary, department_id " +
+                            "from employee where id = ? order by id asc",
+                    employeeRowMapper, id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
-
     }
 
-    //todo Чтобы маппить несколько строк на один объект нужен ResultSetExtractor
-
-    private static class EntityMapper implements RowMapper<EmployeeEntity> {
-
-        @Override
-        public EmployeeEntity mapRow(ResultSet resultSet, int i) throws SQLException {
-            EmployeeEntity employeeEntity = new EmployeeEntity();
-            employeeEntity.setId(resultSet.getLong("employee_id"));
-            employeeEntity.setName(resultSet.getString("name"));
-            employeeEntity.setPosition(resultSet.getString("position"));
-            employeeEntity.setDepartmentId(resultSet.getLong("department_id"));
-            employeeEntity.setSalary(resultSet.getBigDecimal("salary"));
-            return employeeEntity;
-        }
+    @Override
+    public EmployeeEntity update(Long id, EmployeeEntity employeeEntity) {
+        jdbcTemplate.update("update employee set name = ?, position = ?, department_id = ?, salary = ? where id = ?;",
+                employeeEntity.getName(),
+                employeeEntity.getPosition(),
+                employeeEntity.getDepartmentId(),
+                employeeEntity.getSalary(),
+                id);
+        return employeeEntity;
     }
 }
