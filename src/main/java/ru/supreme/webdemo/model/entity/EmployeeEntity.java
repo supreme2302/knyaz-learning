@@ -1,9 +1,9 @@
-package ru.supreme.webdemo.model;
+package ru.supreme.webdemo.model.entity;
 
 /**
  * Класс работник
  */
-public class Employee {
+public class EmployeeEntity {
 
     /**
      * Идентификатор работника
@@ -20,12 +20,15 @@ public class Employee {
      */
     private String position;
 
-    public Employee() {}
+    private Long departmentId;
 
-    public Employee(Long id, String name, String position) {
+    public EmployeeEntity() {}
+
+    public EmployeeEntity(Long id, String name, String position, Long departmentId) {
         this.id = id;
         this.name = name;
         this.position = position;
+        this.departmentId = departmentId;
     }
 
     public Long getId() {
@@ -50,5 +53,13 @@ public class Employee {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
     }
 }
