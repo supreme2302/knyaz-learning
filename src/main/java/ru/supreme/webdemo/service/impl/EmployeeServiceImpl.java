@@ -14,12 +14,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
+    private final EmployeeMapper employeeMapper;
+
+    private final DepartmentRepository departmentRepository;
+
     /**
      * Обрати внивание, что мы внедряем зависимость через интерфейс EmployeeRepository,
      * а не через его реализацию EmployeeRepositoryImpl
      */
     public EmployeeServiceImpl(@Qualifier("employeeRepositoryImpl") EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
+        this.departmentRepository = departmentRepository;
+        this.employeeMapper = employeeMapper;
     }
 
     @Override
@@ -34,6 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void delete(Long id) {
         employeeRepository.deleteEmployee(id);
     }
+
     @Override
     public EmployeeEntity getEmployeeById(Long id) {
         return employeeRepository.getEmployeeById(id);

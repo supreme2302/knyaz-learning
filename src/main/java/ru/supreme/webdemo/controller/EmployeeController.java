@@ -3,7 +3,8 @@ package ru.supreme.webdemo.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.supreme.webdemo.model.EmployeeEntity;
+import ru.supreme.webdemo.model.dto.EmployeeDTO;
+import ru.supreme.webdemo.model.entity.EmployeeEntity;
 import ru.supreme.webdemo.service.EmployeeService;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
     @GetMapping
-    public ResponseEntity<EmployeeEntity> getEmployeeById(@RequestParam(value = "id") Long id) {
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@RequestParam(value = "id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.getEmployeeById(id));
     }
 }
