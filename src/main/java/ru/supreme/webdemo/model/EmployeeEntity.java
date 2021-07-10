@@ -1,9 +1,11 @@
 package ru.supreme.webdemo.model;
 
+import java.math.BigDecimal;
+
 /**
  * Класс работник
  */
-public class Employee {
+public class EmployeeEntity {
 
     /**
      * Идентификатор работника
@@ -20,12 +22,18 @@ public class Employee {
      */
     private String position;
 
-    public Employee() {}
+    private Long departmentId;
 
-    public Employee(Long id, String name, String position) {
+    private BigDecimal salary;
+
+    public EmployeeEntity() {}
+
+    public EmployeeEntity(Long id, String name, String position, Long departmentId, BigDecimal salary) {
         this.id = id;
         this.name = name;
         this.position = position;
+        this.departmentId = departmentId;
+        this.salary = salary;
     }
 
     public Long getId() {
@@ -50,5 +58,21 @@ public class Employee {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public BigDecimal getSalary() {
+        return salary;
+    }
+
+    public void setSalary(BigDecimal salary) {
+        this.salary = salary;
     }
 }
