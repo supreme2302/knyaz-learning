@@ -3,11 +3,9 @@ package ru.supreme.webdemo.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.supreme.webdemo.model.Employee;
+import ru.supreme.webdemo.model.EmployeeEntity;
 import ru.supreme.webdemo.service.EmployeeService;
 
-import javax.servlet.http.HttpSession;
-import java.lang.invoke.VolatileCallSite;
 import java.util.List;
 
 @RestController
@@ -25,14 +23,14 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/list")
-    public ResponseEntity<List<Employee>> getAllEmployees() {
+    public ResponseEntity<List<EmployeeEntity>> getAllEmployees() {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.getAllEmployees());
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
-        employeeService.save(employee);
-        return ResponseEntity.status(HttpStatus.CREATED).body(employee);
+    public ResponseEntity<EmployeeEntity> createEmployee(@RequestBody EmployeeEntity employeeEntity) {
+        employeeService.save(employeeEntity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(employeeEntity);
     }
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable(value = "id") Long id) {
@@ -40,7 +38,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
     @GetMapping
-    public ResponseEntity<Employee> getEmployeeById(@RequestParam(value = "id") Long id) {
+    public ResponseEntity<EmployeeEntity> getEmployeeById(@RequestParam(value = "id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.getEmployeeById(id));
     }
 }
