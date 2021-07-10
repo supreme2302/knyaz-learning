@@ -44,12 +44,9 @@ public class EmployeeController {
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity<EmployeeEntity>
-    updateEmployee(@PathVariable(value = "id") Long id, @RequestBody EmployeeEntity employee) {
+    public ResponseEntity<EmployeeEntity> updateEmployee(@PathVariable(value = "id") Long id,
+                                                         @RequestBody EmployeeEntity employee) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(employeeService.update(id, employee));
-
     }
-
-
 }
 

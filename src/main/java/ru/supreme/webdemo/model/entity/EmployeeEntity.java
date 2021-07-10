@@ -1,4 +1,4 @@
-package ru.supreme.webdemo.model;
+package ru.supreme.webdemo.model.entity;
 
 import java.math.BigDecimal;
 

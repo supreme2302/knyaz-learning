@@ -1,6 +1,7 @@
 package ru.supreme.webdemo.service;
 
-import ru.supreme.webdemo.model.EmployeeEntity;
+import ru.supreme.webdemo.model.dto.EmployeeDTO;
+import ru.supreme.webdemo.model.entity.EmployeeEntity;
 
 import java.util.List;
 

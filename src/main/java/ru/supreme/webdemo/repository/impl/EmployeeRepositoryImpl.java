@@ -1,12 +1,10 @@
 package ru.supreme.webdemo.repository.impl;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ru.supreme.webdemo.model.EmployeeEntity;
+import ru.supreme.webdemo.model.entity.EmployeeEntity;
 import ru.supreme.webdemo.repository.EmployeeRepository;
 
 import java.sql.ResultSet;
@@ -18,7 +16,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final EntityMapper entityMapper = new EntityMapper();
+    private final EmployeeRowMapper employeeRowMapper = new EmployeeRowMapper();
 
     public EmployeeRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -26,7 +24,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public List<EmployeeEntity> findAllEmployees() {
-        return jdbcTemplate.query("select id as employee_id, name, position, salary, department_id from employee", entityMapper);
+        return jdbcTemplate.query("select id as employee_id, name, position, salary, department_id from employee", employeeRowMapper);
     }
 
     @Override
@@ -44,7 +42,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     public EmployeeEntity getEmployeeById(Long id) {
         try {
             return jdbcTemplate.queryForObject("select id as employee_id, name, position, salary, department_id from employee where id = ?",
-                    entityMapper, id);
+                    employeeRowMapper, id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -53,7 +51,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     //todo Чтобы маппить несколько строк на один объект нужен ResultSetExtractor
 
-    private static class EntityMapper implements RowMapper<EmployeeEntity> {
+    private static class EmployeeRowMapper implements RowMapper<EmployeeEntity> {
 
         @Override
         public EmployeeEntity mapRow(ResultSet resultSet, int i) throws SQLException {

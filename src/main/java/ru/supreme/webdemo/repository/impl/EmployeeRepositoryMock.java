@@ -1,7 +1,7 @@
 package ru.supreme.webdemo.repository.impl;
 
 import org.springframework.stereotype.Repository;
-import ru.supreme.webdemo.model.EmployeeEntity;
+import ru.supreme.webdemo.model.entity.EmployeeEntity;
 import ru.supreme.webdemo.repository.EmployeeRepository;
 
 import java.util.ArrayList;

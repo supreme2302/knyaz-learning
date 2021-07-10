@@ -15,10 +15,10 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
 
     public DepartmentRepositoryImpl() {
         List<EmployeeEntity> employeeEntityList1 = new ArrayList<>();
-        employeeEntityList1.add(new EmployeeEntity(1L, "Knyaz", "Developer", 1L));
-        employeeEntityList1.add(new EmployeeEntity(2L, "Koshka", "Dealer", 1L));
+//        employeeEntityList1.add(new EmployeeEntity(1L, "Knyaz", "Developer", 1L));
+//        employeeEntityList1.add(new EmployeeEntity(2L, "Koshka", "Dealer", 1L));
         List<EmployeeEntity> employeeEntityList2 = new ArrayList<>();
-        employeeEntityList2.add(new EmployeeEntity(3L, "Eye of Sauron", "Engineer", 2L));
+//        employeeEntityList2.add(new EmployeeEntity(3L, "Eye of Sauron", "Engineer", 2L));
         departmentEntities.add(new DepartmentEntity(1L, "Market", employeeEntityList1));
         departmentEntities.add(new DepartmentEntity(2L, "IT", employeeEntityList2));
     }
