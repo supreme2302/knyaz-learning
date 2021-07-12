@@ -4,5 +4,5 @@ import ru.supreme.webdemo.model.entity.DepartmentEntity;
 
 public interface DepartmentService {
 
-    DepartmentEntity getDepartmentById(Long id);
+    DepartmentEntity findDepartmentById(Long id);
 }

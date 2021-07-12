@@ -33,7 +33,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeEntity> getAllEmployees() {
+    public List<EmployeeEntity> findAllEmployees() {
         return employeeRepository.findAllEmployees();
     }
 
@@ -50,8 +50,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDTO getEmployeeById(Long id) {
         EmployeeEntity employeeEntity = employeeRepository.getEmployeeById(id);
-        DepartmentEntity departmentEntity = departmentRepository.findById(employeeEntity.getDepartmentId());
-        return employeeMapper.entityToDTO(employeeEntity, departmentEntity.getName());
+        DepartmentEntity departmentEntity = departmentRepository.findDepartmentById(employeeEntity.getDepartmentId());
+        return employeeMapper.entityToDTO(employeeEntity, departmentEntity.getDirection());
     }
 
     @Override

@@ -8,6 +8,7 @@ import ru.supreme.webdemo.model.entity.EmployeeEntity;
 public class EmployeeMapper {
 
     public EmployeeDTO entityToDTO(EmployeeEntity employeeEntity, String departmentName) {
-        return new EmployeeDTO(employeeEntity.getId(), employeeEntity.getName(), employeeEntity.getPosition(), departmentName);
+        return new EmployeeDTO(employeeEntity.getId(), employeeEntity.getName(),
+                employeeEntity.getPosition(), employeeEntity.getSalary(), departmentName);
     }
 }

@@ -1,5 +1,7 @@
 package ru.supreme.webdemo.model.dto;
 
+import java.math.BigDecimal;
+
 public class EmployeeDTO {
 
     /**
@@ -19,11 +21,14 @@ public class EmployeeDTO {
 
     private String departmentName;
 
-    public EmployeeDTO(Long id, String name, String position, String departmentName) {
+    private BigDecimal salary;
+
+    public EmployeeDTO(Long id, String name, String position, BigDecimal salary, String departmentName) {
         this.id = id;
         this.name = name;
         this.position = position;
         this.departmentName = departmentName;
+        this.salary = salary;
     }
 
     public String getDepartmentName() {
@@ -56,5 +61,13 @@ public class EmployeeDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public BigDecimal getSalary() {
+        return salary;
+    }
+
+    public void setSalary(BigDecimal salary) {
+        this.salary = salary;
     }
 }

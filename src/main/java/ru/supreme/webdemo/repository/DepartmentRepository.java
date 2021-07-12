@@ -6,7 +6,12 @@ import java.util.List;
 
 public interface DepartmentRepository {
 
-    List<DepartmentEntity> findAll();
 
-    DepartmentEntity findById(Long id);
+
+    List<DepartmentEntity> findAllDepartments();
+
+    void saveDepartment(DepartmentEntity departmentEntity);
+    void deleteDepartment(Long id);
+
+    DepartmentEntity findDepartmentById(Long id);
 }

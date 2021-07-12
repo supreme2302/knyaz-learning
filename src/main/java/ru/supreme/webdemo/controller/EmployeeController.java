@@ -25,7 +25,7 @@ public class EmployeeController {
 
     @GetMapping(value = "/list")
     public ResponseEntity<List<EmployeeEntity>> getAllEmployees() {
-        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getAllEmployees());
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.findAllEmployees());
     }
 
     @PostMapping(value = "/create")

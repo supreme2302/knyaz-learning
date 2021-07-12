@@ -1,19 +1,20 @@
 package ru.supreme.webdemo.model.entity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class DepartmentEntity {
 
     private Long id;
 
-    private String name;
+    private String direction;
 
-    private List<EmployeeEntity> employeeEntities;
+    private BigDecimal salaryCoefficient;
 
-    public DepartmentEntity(Long id, String name, List<EmployeeEntity> employeeEntities) {
+    public DepartmentEntity(Long id, String direction, BigDecimal salaryCoefficient) {
         this.id = id;
-        this.name = name;
-        this.employeeEntities = employeeEntities;
+        this.direction = direction;
+        this.salaryCoefficient = salaryCoefficient;
     }
 
     public Long getId() {
@@ -24,19 +25,19 @@ public class DepartmentEntity {
         this.id = id;
     }
 
-    public List<EmployeeEntity> getEmployees() {
-        return employeeEntities;
+    public String getDirection() {
+        return direction;
     }
 
-    public void setEmployees(List<EmployeeEntity> employeeEntities) {
-        this.employeeEntities = employeeEntities;
+    public void setDirection(String direction) {
+        this.direction = direction;
     }
 
-    public String getName() {
-        return name;
+    public BigDecimal getSalaryCoefficient() {
+        return salaryCoefficient;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSalaryCoefficient(BigDecimal salaryCoefficient) {
+        this.salaryCoefficient = salaryCoefficient;
     }
 }
