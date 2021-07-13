@@ -55,7 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeEntity update(Long id, EmployeeEntity employee) {
+    public void update(Long id, EmployeeEntity employee) {
         EmployeeEntity updated = employeeRepository.getEmployeeById(id);
         if (employee.getPosition() != null) {
             updated.setPosition(employee.getPosition());
@@ -63,6 +63,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employee.getName() != null) {
             updated.setName(employee.getName());
         }
-        return updated;
+        if (employee.getDepartmentId() != null) {
+            updated.setDepartmentId(employee.getDepartmentId());
+        }
+        if (employee.getSalary() != null) {
+            updated.setSalary(employee.getSalary());
+        }
     }
 }

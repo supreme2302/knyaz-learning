@@ -28,14 +28,15 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public void saveEmployee(EmployeeEntity employeeEntity) {
+    public EmployeeEntity saveEmployee(EmployeeEntity employeeEntity) {
         jdbcTemplate.update("insert into employee(department_id, name, position, salary) values (?, ?, ?, ?)",
                 employeeEntity.getDepartmentId(), employeeEntity.getName(), employeeEntity.getPosition(), employeeEntity.getSalary());
+        return employeeEntity;
     }
 
     @Override
     public void deleteEmployee(Long id) {
-
+        jdbcTemplate.update("delete from employee where id = ?", id);
     }
 
     @Override
@@ -47,6 +48,13 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             return null;
         }
 
+    }
+
+    @Override
+    public EmployeeEntity update(Long id, EmployeeEntity employee) {
+        jdbcTemplate.update("update employee set name = ?, position = ?, departmentId = ?, salary = ? where id = ?",
+                employee.getName(), employee.getPosition(), employee.getDepartmentId(), employee.getSalary(), id);
+        return employee;
     }
 
     //todo Чтобы маппить несколько строк на один объект нужен ResultSetExtractor

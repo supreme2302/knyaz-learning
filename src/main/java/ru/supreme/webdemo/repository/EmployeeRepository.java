@@ -12,8 +12,12 @@ public interface EmployeeRepository {
      */
     List<EmployeeEntity> findAllEmployees();
 
-    void saveEmployee(EmployeeEntity employeeEntity);
+    EmployeeEntity saveEmployee(EmployeeEntity employeeEntity);
+
     void deleteEmployee(Long id);
 
     EmployeeEntity getEmployeeById(Long id);
+
+    EmployeeEntity update(Long id, EmployeeEntity employee);
+
 }
