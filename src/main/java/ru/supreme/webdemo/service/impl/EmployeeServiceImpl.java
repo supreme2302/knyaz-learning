@@ -38,36 +38,37 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void save(EmployeeEntity employeeEntity) {
+    public void saveEmployee(EmployeeEntity employeeEntity) {
         employeeRepository.saveEmployee(employeeEntity);
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteEmployee(Long id) {
         employeeRepository.deleteEmployee(id);
     }
 
     @Override
-    public EmployeeDTO getEmployeeById(Long id) {
-        EmployeeEntity employeeEntity = employeeRepository.getEmployeeById(id);
+    public EmployeeDTO findEmployeeById(Long id) {
+        EmployeeEntity employeeEntity = employeeRepository.findEmployeeById(id);
         DepartmentEntity departmentEntity = departmentRepository.findDepartmentById(employeeEntity.getDepartmentId());
         return employeeMapper.entityToDTO(employeeEntity, departmentEntity.getDirection());
     }
 
     @Override
-    public void update(Long id, EmployeeEntity employee) {
-        EmployeeEntity updated = employeeRepository.getEmployeeById(id);
-        if (employee.getPosition() != null) {
-            updated.setPosition(employee.getPosition());
+    public EmployeeEntity updateEmployee(Long id, EmployeeEntity employeeEntity) {
+        EmployeeEntity updated = employeeRepository.findEmployeeById(id);
+        if (employeeEntity.getPosition() != null) {
+            updated.setPosition(employeeEntity.getPosition());
         }
-        if (employee.getName() != null) {
-            updated.setName(employee.getName());
+        if (employeeEntity.getName() != null) {
+            updated.setName(employeeEntity.getName());
         }
-        if (employee.getDepartmentId() != null) {
-            updated.setDepartmentId(employee.getDepartmentId());
+        if (employeeEntity.getDepartmentId() != null) {
+            updated.setDepartmentId(employeeEntity.getDepartmentId());
         }
-        if (employee.getSalary() != null) {
-            updated.setSalary(employee.getSalary());
+        if (employeeEntity.getSalary() != null) {
+            updated.setSalary(employeeEntity.getSalary());
         }
+        return employeeRepository.updateEmployee(id, updated);
     }
 }

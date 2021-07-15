@@ -24,29 +24,32 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/list")
-    public ResponseEntity<List<EmployeeEntity>> getAllEmployees() {
+    public ResponseEntity<List<EmployeeEntity>> findAllEmployees() {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.findAllEmployees());
     }
 
     @PostMapping(value = "/create")
     public ResponseEntity<EmployeeEntity> createEmployee(@RequestBody EmployeeEntity employeeEntity) {
-        employeeService.save(employeeEntity);
+        employeeService.saveEmployee(employeeEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(employeeEntity);
     }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable(value = "id") Long id) {
-        employeeService.delete(id);
+        employeeService.deleteEmployee(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
     @GetMapping
-    public ResponseEntity<EmployeeDTO> getEmployeeById(@RequestParam(value = "id") Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getEmployeeById(id));
+    public ResponseEntity<EmployeeDTO> findEmployeeById(@RequestParam(value = "id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.findEmployeeById(id));
     }
 
     @PatchMapping(value = "/{id}")
     public ResponseEntity<EmployeeEntity> updateEmployee(@PathVariable(value = "id") Long id,
-                                                         @RequestBody EmployeeEntity employee) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(employeeService.update(id, employee));
+                                                         @RequestBody EmployeeEntity employeeEntity) {
+        employeeService.updateEmployee(id, employeeEntity);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(employeeService.updateEmployee(id, employeeEntity));
     }
 }
 

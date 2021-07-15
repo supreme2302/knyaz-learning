@@ -40,21 +40,24 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public EmployeeEntity getEmployeeById(Long id) {
+    public EmployeeEntity findEmployeeById(Long id) {
         try {
             return jdbcTemplate.queryForObject("select id as employee_id, name, position, salary, department_id from employee where id = ?",
                     employeeRowMapper, id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
-
     }
 
     @Override
-    public EmployeeEntity update(Long id, EmployeeEntity employee) {
-        jdbcTemplate.update("update employee set name = ?, position = ?, departmentId = ?, salary = ? where id = ?",
-                employee.getName(), employee.getPosition(), employee.getDepartmentId(), employee.getSalary(), id);
-        return employee;
+    public EmployeeEntity updateEmployee(Long id, EmployeeEntity employeeEntity) {
+        jdbcTemplate.update("update employee set name = ?, position = ?, department_id = ?, salary = ? where id = ?;",
+                employeeEntity.getName(),
+                employeeEntity.getPosition(),
+                employeeEntity.getDepartmentId(),
+                employeeEntity.getSalary(),
+                id);
+        return employeeEntity;
     }
 
     //todo Чтобы маппить несколько строк на один объект нужен ResultSetExtractor

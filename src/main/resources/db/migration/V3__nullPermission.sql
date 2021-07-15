@@ -1,0 +1,6 @@
+ALTER TABLE employee
+    ALTER COLUMN name DROP NOT NULL;
+ALTER TABLE employee
+    ALTER COLUMN position DROP NOT NULL;
+ALTER TABLE employee
+    ALTER COLUMN salary DROP NOT NULL;

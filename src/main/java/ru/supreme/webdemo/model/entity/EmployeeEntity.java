@@ -26,7 +26,8 @@ public class EmployeeEntity {
 
     private BigDecimal salary;
 
-    public EmployeeEntity() {}
+    public EmployeeEntity() {
+    }
 
     public EmployeeEntity(Long id, String name, String position, Long departmentId, BigDecimal salary) {
         this.id = id;

@@ -6,13 +6,14 @@ import ru.supreme.webdemo.model.entity.EmployeeEntity;
 import java.util.List;
 
 public interface EmployeeService {
+
     List<EmployeeEntity> findAllEmployees();
 
-    void save(EmployeeEntity employeeEntity);
+    void saveEmployee(EmployeeEntity employeeEntity);
 
-    void delete(Long id);
+    void deleteEmployee(Long id);
 
-    EmployeeDTO getEmployeeById(Long id);
+    EmployeeDTO findEmployeeById(Long id);
 
-     void update(Long id, EmployeeEntity employee);
+    EmployeeEntity updateEmployee(Long id, EmployeeEntity employeeEntity);
 }

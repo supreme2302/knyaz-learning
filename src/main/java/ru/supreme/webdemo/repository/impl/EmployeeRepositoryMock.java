@@ -43,7 +43,7 @@ public class EmployeeRepositoryMock implements EmployeeRepository {
         }
     }
     @Override
-    public EmployeeEntity getEmployeeById(Long id) {
+    public EmployeeEntity findEmployeeById(Long id) {
         for (EmployeeEntity employeeEntity : employeeList) {
             if (employeeEntity.getId().equals(id))
                 return employeeEntity;
@@ -52,8 +52,7 @@ public class EmployeeRepositoryMock implements EmployeeRepository {
     }
 
     @Override
-    public EmployeeEntity update(Long id, EmployeeEntity employee) {
-        return null;
-    }
+    public EmployeeEntity updateEmployee(Long id, EmployeeEntity employeeEntity) {
+    return null;}
 
 }
