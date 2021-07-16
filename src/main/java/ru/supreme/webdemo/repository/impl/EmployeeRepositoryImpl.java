@@ -24,13 +24,17 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public List<EmployeeEntity> findAllEmployees() {
-        return jdbcTemplate.query("select id as employee_id, name, position, salary, department_id from employee", employeeRowMapper);
+        return jdbcTemplate.query("select id as employee_id, name, position, salary, department_id from employee",
+                employeeRowMapper);
     }
 
     @Override
     public EmployeeEntity saveEmployee(EmployeeEntity employeeEntity) {
         jdbcTemplate.update("insert into employee(department_id, name, position, salary) values (?, ?, ?, ?)",
-                employeeEntity.getDepartmentId(), employeeEntity.getName(), employeeEntity.getPosition(), employeeEntity.getSalary());
+                employeeEntity.getDepartmentId(),
+                employeeEntity.getName(),
+                employeeEntity.getPosition(),
+                employeeEntity.getSalary());
         return employeeEntity;
     }
 

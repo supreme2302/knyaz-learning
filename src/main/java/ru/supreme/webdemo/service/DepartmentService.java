@@ -11,4 +11,6 @@ public interface DepartmentService {
     DepartmentEntity findDepartmentById(Long id);
 
     void saveDepartment(DepartmentEntity departmentEntity);
+
+    void deleteDepartment(Long id);
 }

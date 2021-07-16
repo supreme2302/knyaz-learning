@@ -45,9 +45,8 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
 
     @Override
     public void deleteDepartment(Long id) {
-
+        jdbcTemplate.update("delete from department where id = ?", id);
     }
-
     @Override
     public DepartmentEntity updateDepartment(Long id) {
         return null;

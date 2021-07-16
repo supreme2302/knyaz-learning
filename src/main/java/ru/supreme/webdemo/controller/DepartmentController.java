@@ -29,4 +29,10 @@ public class DepartmentController {
         departmentService.saveDepartment(departmentEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(departmentEntity);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteDepartment(@PathVariable(value = "id") Long id){
+        departmentService.deleteDepartment(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
