@@ -50,7 +50,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDTO findEmployeeById(Long id) {
         EmployeeEntity employeeEntity = employeeRepository.findEmployeeById(id);
-        DepartmentEntity departmentEntity = departmentRepository.findDepartmentById(employeeEntity.getDepartmentId());
+        DepartmentEntity departmentEntity = departmentRepository.findDepartmentInfoByDepartmentId(employeeEntity.getDepartmentId());
         return employeeMapper.entityToDTO(employeeEntity, departmentEntity.getDirection());
     }
 

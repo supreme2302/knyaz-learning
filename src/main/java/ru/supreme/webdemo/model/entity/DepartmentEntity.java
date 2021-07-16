@@ -11,6 +11,8 @@ public class DepartmentEntity {
 
     private BigDecimal salaryCoefficient;
 
+    public DepartmentEntity(){}
+
     public DepartmentEntity(Long id, String direction, BigDecimal salaryCoefficient) {
         this.id = id;
         this.direction = direction;

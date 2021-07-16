@@ -10,12 +10,20 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     private final DepartmentRepository departmentRepository;
 
-    public DepartmentServiceImpl(DepartmentRepository departmentRepository) {
+    private final DepartmentMapper departmentMapper;
+
+    public DepartmentServiceImpl(DepartmentRepository departmentRepository, DepartmentMapper departmentMapper) {
         this.departmentRepository = departmentRepository;
+        this.departmentMapper = departmentMapper;
     }
 
     @Override
     public DepartmentEntity findDepartmentById(Long id) {
-        return departmentRepository.findDepartmentById(id);
+        return departmentRepository.findDepartmentInfoByDepartmentId(id);
+    }
+
+    @Override
+    public void saveDepartment(DepartmentEntity departmentEntity) {
+        departmentRepository.saveDepartment(departmentEntity);
     }
 }
