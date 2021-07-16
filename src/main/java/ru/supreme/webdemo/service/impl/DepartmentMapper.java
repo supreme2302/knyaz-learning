@@ -10,6 +10,6 @@ public class DepartmentMapper {
     public DepartmentDTO entityToDTO(DepartmentEntity departmentEntity){
         return new DepartmentDTO(departmentEntity.getId(),
                 departmentEntity.getDirection(),
-                departmentEntity.getGovno());
+                departmentEntity.getSalaryCoefficient());
     }
 }

@@ -5,6 +5,8 @@ import ru.supreme.webdemo.model.entity.DepartmentEntity;
 import ru.supreme.webdemo.repository.DepartmentRepository;
 import ru.supreme.webdemo.service.DepartmentService;
 
+import java.util.List;
+
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
@@ -15,6 +17,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     public DepartmentServiceImpl(DepartmentRepository departmentRepository, DepartmentMapper departmentMapper) {
         this.departmentRepository = departmentRepository;
         this.departmentMapper = departmentMapper;
+    }
+
+    @Override
+    public List<DepartmentEntity> findAllDepartments() {
+        return departmentRepository.findAllDepartments();
     }
 
     @Override

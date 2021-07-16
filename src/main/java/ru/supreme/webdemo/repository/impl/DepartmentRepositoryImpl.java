@@ -31,14 +31,15 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
 
     @Override
     public List<DepartmentEntity> findAllDepartments() {
-        return null;
+       return jdbcTemplate.query("select id as department_id, direction, salary_coefficient from department",
+                departmentRowMapper);
     }
 
     @Override
     public DepartmentEntity saveDepartment(DepartmentEntity departmentEntity) {
         jdbcTemplate.update("insert into department (direction, salary_coefficient) values (?, ?)",
                 departmentEntity.getDirection(),
-                departmentEntity.getGovno());
+                departmentEntity.getSalaryCoefficient());
         return departmentEntity;
     }
 
@@ -77,7 +78,7 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
             DepartmentEntity departmentEntity = new DepartmentEntity();
             departmentEntity.setId(resultSet.getLong("department_id"));
             departmentEntity.setDirection(resultSet.getString("direction"));
-            departmentEntity.setGovno(resultSet.getBigDecimal("salary_coefficient"));
+            departmentEntity.setSalaryCoefficient(resultSet.getBigDecimal("salary_coefficient"));
             return departmentEntity;
         }
     }
