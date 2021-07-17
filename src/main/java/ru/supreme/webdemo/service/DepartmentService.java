@@ -1,16 +1,19 @@
 package ru.supreme.webdemo.service;
 
-import ru.supreme.webdemo.model.entity.DepartmentEntity;
+import ru.supreme.webdemo.model.entity.DepartmentDTO;
 
 import java.util.List;
 
 public interface DepartmentService {
 
-    List<DepartmentEntity> findAllDepartments();
+    List<DepartmentDTO> findAllDepartments();
 
-    DepartmentEntity findDepartmentById(Long id);
+    DepartmentDTO findDepartmentById(Long id);
 
-    void saveDepartment(DepartmentEntity departmentEntity);
+    void saveDepartment(DepartmentDTO departmentEntity);
 
     void deleteDepartment(Long id);
+
+    DepartmentDTO updateDepartment(Long id,
+                                   DepartmentDTO departmentEntity);
 }

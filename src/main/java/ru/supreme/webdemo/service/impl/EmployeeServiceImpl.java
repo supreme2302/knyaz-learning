@@ -3,7 +3,7 @@ package ru.supreme.webdemo.service.impl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.supreme.webdemo.model.dto.EmployeeDTO;
-import ru.supreme.webdemo.model.entity.DepartmentEntity;
+import ru.supreme.webdemo.model.entity.DepartmentDTO;
 import ru.supreme.webdemo.model.entity.EmployeeEntity;
 import ru.supreme.webdemo.repository.DepartmentRepository;
 import ru.supreme.webdemo.repository.EmployeeRepository;
@@ -50,7 +50,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDTO findEmployeeById(Long id) {
         EmployeeEntity employeeEntity = employeeRepository.findEmployeeById(id);
-        DepartmentEntity departmentEntity = departmentRepository.findDepartmentInfoByDepartmentId(employeeEntity.getDepartmentId());
+        DepartmentDTO departmentEntity = departmentRepository.findDepartmentById(employeeEntity.getDepartmentId());
         return employeeMapper.entityToDTO(employeeEntity, departmentEntity.getDirection());
     }
 

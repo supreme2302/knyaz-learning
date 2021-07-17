@@ -3,7 +3,7 @@ package ru.supreme.webdemo.model.entity;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class DepartmentEntity {
+public class DepartmentDTO {
 
     private Long id;
 
@@ -11,9 +11,9 @@ public class DepartmentEntity {
 
     private BigDecimal salaryCoefficient;
 
-    public DepartmentEntity(){}
+    public DepartmentDTO(){}
 
-    public DepartmentEntity(Long id, String direction, BigDecimal salaryCoefficient) {
+    public DepartmentDTO(Long id, String direction, BigDecimal salaryCoefficient) {
         this.id = id;
         this.direction = direction;
         this.salaryCoefficient = salaryCoefficient;

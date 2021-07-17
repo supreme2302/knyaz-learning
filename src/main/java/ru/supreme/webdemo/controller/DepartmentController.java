@@ -2,9 +2,8 @@ package ru.supreme.webdemo.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ru.supreme.webdemo.model.entity.DepartmentEntity;
+import ru.supreme.webdemo.model.entity.DepartmentDTO;
 import ru.supreme.webdemo.service.DepartmentService;
 
 import java.util.List;
@@ -20,12 +19,18 @@ public class DepartmentController {
     }
 
     @GetMapping(value = "/list")
-    public ResponseEntity<List<DepartmentEntity>> findAllDepartments(){
+    public ResponseEntity<List<DepartmentDTO>> findAllDepartments(){
        return ResponseEntity.status(HttpStatus.OK).body(departmentService.findAllDepartments());
     }
 
+    @GetMapping
+    public ResponseEntity<DepartmentDTO> findDepartmentById(@RequestParam (value = "id") Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(departmentService.findDepartmentById(id));
+    }
+
+
     @PostMapping(value = "/create")
-    public ResponseEntity<DepartmentEntity> createDepartment(@RequestBody DepartmentEntity departmentEntity){
+    public ResponseEntity<DepartmentDTO> createDepartment(@RequestBody DepartmentDTO departmentEntity){
         departmentService.saveDepartment(departmentEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(departmentEntity);
     }
@@ -34,5 +39,12 @@ public class DepartmentController {
     public ResponseEntity<Void> deleteDepartment(@PathVariable(value = "id") Long id){
         departmentService.deleteDepartment(id);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<DepartmentDTO> updateDepartment(@PathVariable(value = "id") Long id,
+                                                          @RequestBody DepartmentDTO departmentEntity){
+        departmentService.updateDepartment(id, departmentEntity);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(departmentEntity);
     }
 }

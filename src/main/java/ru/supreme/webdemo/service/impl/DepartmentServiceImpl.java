@@ -1,7 +1,7 @@
 package ru.supreme.webdemo.service.impl;
 
 import org.springframework.stereotype.Service;
-import ru.supreme.webdemo.model.entity.DepartmentEntity;
+import ru.supreme.webdemo.model.entity.DepartmentDTO;
 import ru.supreme.webdemo.repository.DepartmentRepository;
 import ru.supreme.webdemo.service.DepartmentService;
 
@@ -20,17 +20,18 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<DepartmentEntity> findAllDepartments() {
+    public List<DepartmentDTO> findAllDepartments() {
         return departmentRepository.findAllDepartments();
     }
 
     @Override
-    public DepartmentEntity findDepartmentById(Long id) {
-        return departmentRepository.findDepartmentInfoByDepartmentId(id);
+    public DepartmentDTO findDepartmentById(Long id) {
+        DepartmentDTO departmentEntity = departmentRepository.findDepartmentById(id);
+        return departmentMapper.entityToDTO(departmentEntity);
     }
 
     @Override
-    public void saveDepartment(DepartmentEntity departmentEntity) {
+    public void saveDepartment(DepartmentDTO departmentEntity) {
         departmentRepository.saveDepartment(departmentEntity);
     }
 
@@ -38,4 +39,20 @@ public class DepartmentServiceImpl implements DepartmentService {
     public void deleteDepartment(Long id) {
         departmentRepository.deleteDepartment(id);
     }
+
+    @Override
+    public DepartmentDTO updateDepartment(Long id, DepartmentDTO departmentEntity) {
+        DepartmentDTO updated = departmentRepository.findDepartmentById(id);
+        if (departmentEntity.getDirection() != null)
+        {
+            updated.setDirection(departmentEntity.getDirection());
+        }
+        if (departmentEntity.getSalaryCoefficient() != null)
+        {
+            updated.setSalaryCoefficient(departmentEntity.getSalaryCoefficient());
+        }
+        return departmentRepository.updateDepartment(id, updated);
+    }
+
+
 }

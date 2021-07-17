@@ -1,26 +1,26 @@
 package ru.supreme.webdemo.repository;
 
-import ru.supreme.webdemo.model.entity.DepartmentEntity;
+import ru.supreme.webdemo.model.entity.DepartmentDTO;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface DepartmentRepository {
 
 
 
-    List<DepartmentEntity> findAllDepartments();
+    List<DepartmentDTO> findAllDepartments();
 
-    DepartmentEntity saveDepartment(DepartmentEntity departmentEntity);
+    DepartmentDTO findDepartmentById(Long id);
+
+    DepartmentDTO saveDepartment(DepartmentDTO departmentEntity);
 
     void deleteDepartment(Long id);
 
-    DepartmentEntity updateDepartment(Long id);
+    DepartmentDTO updateDepartment(Long id, DepartmentDTO departmentEntity);
 
-    DepartmentEntity findDepartmentInfoByDepartmentId(Long id);
+    DepartmentDTO findDepartmentInfoByDepartmentId(Long id);
 
 //    todo Понять, как посчитать затраты на зарплату по отделам, потом в Эмплоии добавить метод для
 //    подсчета зарплаты работника
 
-      List<DepartmentEntity> countDepartmentsSalaryExpenses();
 }
