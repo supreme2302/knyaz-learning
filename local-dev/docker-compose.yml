@@ -4,8 +4,8 @@ services:
   knyaz-learning-db:
     image: postgres:11.0
     ports:
-      - 5432:5432
+      - 5433:5432
     environment:
-      POSTGRES_DB: web_test
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: library
+      POSTGRES_USER: library
+      POSTGRES_PASSWORD: library
