@@ -37,16 +37,27 @@ public class AuthorListResultSetExtractor implements ResultSetExtractor<List<Aut
         Map<Long, AuthorEntity> authors = new LinkedHashMap<>();
         while (rs.next()) {
             long id = rs.getLong("author_id");
-            authors.computeIfAbsent(id, value -> {
+//            authors.computeIfAbsent(id, value -> {
+//                AuthorEntity authorEntity;
+//                try {
+//                    authorEntity = authorRowMapper.mapRow(rs);
+//                    authorEntity.setBooks(new ArrayList<>());
+//                } catch (SQLException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                return authorEntity;
+//            });
+
+            /**
+             * Мои попытки переписать по-другому
+             */
+
+            if (!(authors.containsKey(id))) {
                 AuthorEntity authorEntity;
-                try {
-                    authorEntity = authorRowMapper.mapRow(rs);
-                    authorEntity.setBooks(new ArrayList<>());
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                return authorEntity;
-            });
+                authorEntity = authorRowMapper.mapRow(rs);
+                authorEntity.setBooks(new ArrayList<>());
+                authors.put(id, authorEntity);
+            }
 
             AuthorEntity authorEntity = authors.get(id);
             BookEntity bookEntity = bookRowMapper.mapRow(rs);
