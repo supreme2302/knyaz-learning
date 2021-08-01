@@ -1,11 +1,8 @@
-package ru.supreme.webdemo.model;
+package ru.supreme.webdemo.model.dto;
 
 import java.math.BigDecimal;
 
-/**
- * Класс работник
- */
-public class EmployeeEntity {
+public class EmployeeWithDepartmentIdDTO {
 
     /**
      * Идентификатор работника
@@ -26,9 +23,11 @@ public class EmployeeEntity {
 
     private BigDecimal salary;
 
-    public EmployeeEntity() {}
-
-    public EmployeeEntity(Long id, String name, String position, Long departmentId, BigDecimal salary) {
+    public EmployeeWithDepartmentIdDTO(Long id,
+                                       String name,
+                                       String position,
+                                       Long departmentId,
+                                       BigDecimal salary) {
         this.id = id;
         this.name = name;
         this.position = position;
