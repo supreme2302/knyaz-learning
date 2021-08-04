@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.supreme.webdemo.model.dto.DepartmentWithEmployeeListDTO;
 import ru.supreme.webdemo.model.dto.DepartmentWithoutEmployeeListDTO;
+import ru.supreme.webdemo.model.dto.ErrorMessageDTO;
 import ru.supreme.webdemo.model.entity.DepartmentEntity;
 import ru.supreme.webdemo.service.DepartmentService;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class DepartmentController {
 
     private final DepartmentService departmentService;
+
 
     public DepartmentController(DepartmentService departmentService) {
         this.departmentService = departmentService;
@@ -31,10 +33,11 @@ public class DepartmentController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<DepartmentWithEmployeeListDTO> findDepartmentById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> findDepartmentById(@PathVariable(value = "id") Long id) {
         DepartmentWithEmployeeListDTO departmentWithEmployeeListDTO = departmentService.findDepartmentById(id);
         if (departmentWithEmployeeListDTO == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessageDTO("Wrong request. " +
+                    "Please be more attentive and try again"));
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(departmentWithEmployeeListDTO);
         }
@@ -46,10 +49,11 @@ public class DepartmentController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
 
         if (departmentService.findDepartmentById(id) == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessageDTO("Wrong request. " +
+                    "Please be more attentive and try again"));
         } else {
             departmentService.delete(id);
             return ResponseEntity.status(HttpStatus.OK).build();
@@ -57,11 +61,12 @@ public class DepartmentController {
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity<DepartmentWithoutEmployeeListDTO> update(@PathVariable(value = "id") Long id,
-                                                                   @RequestBody DepartmentEntity departmentEntity) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id,
+                                    @RequestBody DepartmentEntity departmentEntity) {
         DepartmentWithoutEmployeeListDTO departmentWithoutEmployeeListDTO = departmentService.update(id, departmentEntity);
         if (departmentWithoutEmployeeListDTO == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessageDTO("Wrong request. " +
+                    "Please be more attentive and try again"));
         } else {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(departmentWithoutEmployeeListDTO);
         }
