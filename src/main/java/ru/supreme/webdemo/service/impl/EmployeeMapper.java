@@ -31,4 +31,16 @@ public class EmployeeMapper {
                     employeeEntity.getSalary());
         }
     }
+
+    public EmployeeEntity dtoToEntity(EmployeeWithDepartmentIdDTO employee) {
+        if (employee == null) {
+            return null;
+        } else {
+            return new EmployeeEntity(employee.getId(),
+                    employee.getName(),
+                    employee.getPosition(),
+                    employee.getDepartmentId(),
+                    employee.getSalary());
+        }
+    }
 }
