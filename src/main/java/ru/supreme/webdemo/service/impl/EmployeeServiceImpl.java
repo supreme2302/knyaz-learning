@@ -16,7 +16,6 @@ import java.util.List;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-
     private final EmployeeRepository employeeRepository;
 
     private final EmployeeMapper employeeMapper;
@@ -48,8 +47,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeWithDepartmentIdDTO create(EmployeeEntity employeeEntity) {
-        employeeRepository.save(employeeEntity);
+    public EmployeeWithDepartmentIdDTO create(EmployeeWithDepartmentIdDTO employee) {
+        EmployeeEntity employeeEntity = employeeRepository.save(employeeMapper.dtoToEntity(employee));
         return employeeMapper.entityToEmployeeWithDepartmentIdDTO(employeeEntity);
     }
 
@@ -87,22 +86,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeWithDepartmentIdDTO update(Long id, EmployeeEntity employeeEntity) {
+    public EmployeeWithDepartmentIdDTO update(Long id, EmployeeWithDepartmentIdDTO employeeDTO) {
         EmployeeEntity newEmployeeEntity = employeeRepository.findEmployeeById(id);
         if (newEmployeeEntity == null) {
             return null;
         } else {
-            if (employeeEntity.getPosition() != null) {
-                newEmployeeEntity.setPosition(employeeEntity.getPosition());
+            if (employeeDTO.getPosition() != null) {
+                newEmployeeEntity.setPosition(employeeDTO.getPosition());
             }
-            if (employeeEntity.getName() != null) {
-                newEmployeeEntity.setName(employeeEntity.getName());
+            if (employeeDTO.getName() != null) {
+                newEmployeeEntity.setName(employeeDTO.getName());
             }
-            if (employeeEntity.getDepartmentId() != null) {
-                newEmployeeEntity.setDepartmentId(employeeEntity.getDepartmentId());
+            if (employeeDTO.getDepartmentId() != null) {
+                newEmployeeEntity.setDepartmentId(employeeDTO.getDepartmentId());
             }
-            if (employeeEntity.getSalary() != null) {
-                newEmployeeEntity.setSalary(employeeEntity.getSalary());
+            if (employeeDTO.getSalary() != null) {
+                newEmployeeEntity.setSalary(employeeDTO.getSalary());
             }
             EmployeeEntity employee = employeeRepository.update(id, newEmployeeEntity);
             return employeeMapper.entityToEmployeeWithDepartmentIdDTO(employee);

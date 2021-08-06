@@ -48,8 +48,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public DepartmentWithoutEmployeeListDTO create(DepartmentEntity departmentEntity) {
-        return departmentMapper.entityToDepartmentWithoutEmployeeDTO(departmentRepository.save(departmentEntity));
+    public DepartmentWithEmployeeListDTO create(DepartmentWithEmployeeListDTO departmentDTO) {
+        DepartmentEntity department = departmentMapper.dtoToEntity(departmentDTO);
+        return departmentMapper.entityToDepartmentWithEmployeeListDTO(departmentRepository.save(department));
     }
 
     @Override
@@ -58,16 +59,16 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public DepartmentWithoutEmployeeListDTO update(Long id, DepartmentEntity departmentEntity) {
+    public DepartmentWithoutEmployeeListDTO update(Long id, DepartmentWithoutEmployeeListDTO departmentDTO) {
         DepartmentEntity newDepartmentEntity = departmentRepository.findDepartmentById(id);
         if (newDepartmentEntity == null) {
             return null;
         } else {
-            if (departmentEntity.getDirection() != null) {
-                newDepartmentEntity.setDirection(departmentEntity.getDirection());
+            if (departmentDTO.getDirection() != null) {
+                newDepartmentEntity.setDirection(departmentDTO.getDirection());
             }
-            if (departmentEntity.getSalaryCoefficient() != null) {
-                newDepartmentEntity.setSalaryCoefficient(departmentEntity.getSalaryCoefficient());
+            if (departmentDTO.getSalaryCoefficient() != null) {
+                newDepartmentEntity.setSalaryCoefficient(departmentDTO.getSalaryCoefficient());
             }
             return departmentMapper.entityToDepartmentWithoutEmployeeDTO(departmentRepository.update(id, newDepartmentEntity));
         }

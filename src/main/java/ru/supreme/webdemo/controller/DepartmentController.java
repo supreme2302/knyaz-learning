@@ -6,17 +6,19 @@ import org.springframework.web.bind.annotation.*;
 import ru.supreme.webdemo.model.dto.DepartmentWithEmployeeListDTO;
 import ru.supreme.webdemo.model.dto.DepartmentWithoutEmployeeListDTO;
 import ru.supreme.webdemo.model.dto.ErrorMessageDTO;
-import ru.supreme.webdemo.model.entity.DepartmentEntity;
+import ru.supreme.webdemo.model.dto.UserDTO;
 import ru.supreme.webdemo.service.DepartmentService;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
+
+import static ru.supreme.webdemo.WebDemoConst.USER_SESSION_ATTRIBUTE;
 
 @RestController
 @RequestMapping(path = "/departments")
 public class DepartmentController {
 
     private final DepartmentService departmentService;
-
 
     public DepartmentController(DepartmentService departmentService) {
         this.departmentService = departmentService;
@@ -44,26 +46,37 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public ResponseEntity<DepartmentWithoutEmployeeListDTO> create(@RequestBody DepartmentEntity departmentEntity) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(departmentService.create(departmentEntity));
+    public ResponseEntity<?> create(@RequestBody DepartmentWithEmployeeListDTO departmentDTO, HttpSession httpSession) {
+        UserDTO userDTO = (UserDTO) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
+        if (userDTO == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be authenticated!");
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(departmentService.create(departmentDTO));
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id, HttpSession httpSession) {
+        UserDTO userDTO = (UserDTO) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
+        if (userDTO == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be authenticated!");
+        }
         if (departmentService.findDepartmentById(id) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessageDTO("Wrong request. " +
                     "Please be more attentive and try again"));
         } else {
             departmentService.delete(id);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body("Department was deleted!");
         }
     }
 
     @PatchMapping(value = "/{id}")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id,
-                                    @RequestBody DepartmentEntity departmentEntity) {
-        DepartmentWithoutEmployeeListDTO departmentWithoutEmployeeListDTO = departmentService.update(id, departmentEntity);
+                                    @RequestBody DepartmentWithoutEmployeeListDTO departmentDTO, HttpSession httpSession) {
+        UserDTO userDTO = (UserDTO) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
+        if (userDTO == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be authenticated!");
+        }
+        DepartmentWithoutEmployeeListDTO departmentWithoutEmployeeListDTO = departmentService.update(id, departmentDTO);
         if (departmentWithoutEmployeeListDTO == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessageDTO("Wrong request. " +
                     "Please be more attentive and try again"));

@@ -2,15 +2,13 @@ package ru.supreme.webdemo.service;
 
 import ru.supreme.webdemo.model.dto.EmployeeWithDepartmentIdDTO;
 import ru.supreme.webdemo.model.dto.EmployeeWithDepartmentNameDTO;
-import ru.supreme.webdemo.model.entity.EmployeeEntity;
-
 import java.util.List;
 
 public interface EmployeeService {
 
     List<EmployeeWithDepartmentNameDTO> findAllEmployees();
 
-    EmployeeWithDepartmentIdDTO create(EmployeeEntity employeeEntity);
+    EmployeeWithDepartmentIdDTO create(EmployeeWithDepartmentIdDTO employeeDTO);
 
     void delete(Long id);
 
@@ -18,5 +16,5 @@ public interface EmployeeService {
 
     List<EmployeeWithDepartmentNameDTO> findEmployeesByDepartmentId(Long id);
 
-    EmployeeWithDepartmentIdDTO update(Long id, EmployeeEntity employeeEntity);
+    EmployeeWithDepartmentIdDTO update(Long id, EmployeeWithDepartmentIdDTO employeeDTO);
 }

@@ -6,10 +6,13 @@ import org.springframework.web.bind.annotation.*;
 import ru.supreme.webdemo.model.dto.EmployeeWithDepartmentIdDTO;
 import ru.supreme.webdemo.model.dto.EmployeeWithDepartmentNameDTO;
 import ru.supreme.webdemo.model.dto.ErrorMessageDTO;
-import ru.supreme.webdemo.model.entity.EmployeeEntity;
+import ru.supreme.webdemo.model.dto.UserDTO;
 import ru.supreme.webdemo.service.EmployeeService;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
+
+import static ru.supreme.webdemo.WebDemoConst.USER_SESSION_ATTRIBUTE;
 
 @RestController
 @RequestMapping(path = "/employees")
@@ -52,25 +55,39 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeWithDepartmentIdDTO> create(@RequestBody EmployeeEntity employeeEntity) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.create(employeeEntity));
+    public ResponseEntity<?> create(@RequestBody EmployeeWithDepartmentIdDTO employee,
+                                    HttpSession httpSession) {
+        // todo убрать ентити, поменять на дто
+        UserDTO userDTO = (UserDTO) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
+        if (userDTO == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be authenticated!");
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.create(employee));
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id, HttpSession httpSession) {
+        UserDTO userDTO = (UserDTO) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
+        if (userDTO == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be authenticated!");
+        }
         if (employeeService.findEmployeeById(id) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessageDTO("Wrong request. " +
                     "Please be more attentive and try again"));
         } else {
             employeeService.delete(id);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body("Employee was deleted!");
         }
     }
 
     @PatchMapping(value = "/{id}")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id,
-                                    @RequestBody EmployeeEntity employeeEntity) {
-        EmployeeWithDepartmentIdDTO employeeWithDepartmentIdDTO = employeeService.update(id, employeeEntity);
+                                    @RequestBody EmployeeWithDepartmentIdDTO employeeDTO, HttpSession httpSession) {
+        UserDTO userDTO = (UserDTO) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
+        if (userDTO == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be authenticated!");
+        }
+        EmployeeWithDepartmentIdDTO employeeWithDepartmentIdDTO = employeeService.update(id, employeeDTO);
         if (employeeWithDepartmentIdDTO == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessageDTO("Wrong request. " +
                     "Please be more attentive and try again"));

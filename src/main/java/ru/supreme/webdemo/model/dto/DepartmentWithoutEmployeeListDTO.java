@@ -32,7 +32,7 @@ public class DepartmentWithoutEmployeeListDTO {
         this.direction = direction;
     }
 
-    public float getSalaryCoefficient() {
+    public Float getSalaryCoefficient() {
         return salaryCoefficient;
     }
 

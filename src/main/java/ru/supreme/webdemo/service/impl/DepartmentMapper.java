@@ -28,4 +28,15 @@ public class DepartmentMapper {
                     departmentEntity.getEmployees());
         }
     }
+
+    public DepartmentEntity dtoToEntity(DepartmentWithEmployeeListDTO departmentDTO) {
+        if (departmentDTO == null) {
+            return null;
+        } else {
+            return new DepartmentEntity(departmentDTO.getId(),
+                    departmentDTO.getDirection(),
+                    departmentDTO.getSalaryCoefficient(),
+                    departmentDTO.getEmployees());
+        }
+    }
 }
