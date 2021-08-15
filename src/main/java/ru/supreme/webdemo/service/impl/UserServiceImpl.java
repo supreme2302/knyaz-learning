@@ -7,6 +7,9 @@ import ru.supreme.webdemo.model.entity.UserEntity;
 import ru.supreme.webdemo.repository.UserRepository;
 import ru.supreme.webdemo.service.UserService;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -30,8 +33,8 @@ public class UserServiceImpl implements UserService {
         if (userFromDB == null) {
             return false;
         }
-        UserEntity userFromRequest = userMapper.dtoToEntity(userDTO);
-        if (passwordEncoder.matches(userFromRequest.getPassword(), userFromDB.getPassword())) {
+//        UserEntity userFromRequest = userMapper.dtoToEntity(userDTO);
+        if (passwordEncoder.matches(userDTO.getPassword(), userFromDB.getPassword())) {
             return true;
         } else {
             return false;
@@ -49,4 +52,44 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userEntity);
         return userMapper.entityToDTO(userEntity);
     }
+
+    public void kek() {
+
+        InputStream io = new InputStream() {
+            @Override
+            public int read() throws IOException {
+                return 0;
+            }
+        };
+
+        try (InputStream io1 = new InputStream() {
+            @Override
+            public int read() throws IOException {
+                return 0;
+            }
+        }) {
+
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            //
+        } catch (Exception e) {
+            //
+
+        } finally {
+            try {
+                io.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }
+
+
