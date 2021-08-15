@@ -1,10 +1,8 @@
 package ru.supreme.webdemo.service.impl;
 
-import org.springframework.stereotype.Component;
 import ru.supreme.webdemo.model.dto.UserDTO;
 import ru.supreme.webdemo.model.entity.UserEntity;
 
-@Component
 public class UserMapper {
 
     public UserDTO entityToDTO(UserEntity userEntity) {
