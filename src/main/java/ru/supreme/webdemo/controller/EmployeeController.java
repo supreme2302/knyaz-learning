@@ -57,7 +57,6 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody EmployeeWithDepartmentIdDTO employee,
                                     HttpSession httpSession) {
-        // todo убрать ентити, поменять на дто
         UserDTO userDTO = (UserDTO) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
         if (userDTO == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be authenticated!");
