@@ -18,8 +18,4 @@ public interface DepartmentRepository {
     void delete(Long id);
 
     DepartmentEntity update(Long id, DepartmentEntity departmentEntity);
-
-//    todo Понять, как посчитать затраты на зарплату по отделам, потом в Эмплоии добавить метод для
-//    подсчета зарплаты работника
-
 }
