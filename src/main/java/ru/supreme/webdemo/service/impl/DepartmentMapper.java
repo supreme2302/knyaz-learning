@@ -1,9 +1,11 @@
 package ru.supreme.webdemo.service.impl;
 
+import org.springframework.stereotype.Component;
 import ru.supreme.webdemo.model.dto.DepartmentWithEmployeeListDTO;
 import ru.supreme.webdemo.model.dto.DepartmentWithoutEmployeeListDTO;
 import ru.supreme.webdemo.model.entity.DepartmentEntity;
 
+@Component
 public class DepartmentMapper {
 
     public DepartmentWithoutEmployeeListDTO entityToDepartmentWithoutEmployeeDTO(DepartmentEntity departmentEntity) {

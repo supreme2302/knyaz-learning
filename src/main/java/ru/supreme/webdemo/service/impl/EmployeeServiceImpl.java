@@ -1,6 +1,5 @@
 package ru.supreme.webdemo.service.impl;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.supreme.webdemo.model.dto.EmployeeWithDepartmentIdDTO;
 import ru.supreme.webdemo.model.dto.EmployeeWithDepartmentNameDTO;
@@ -26,7 +25,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * Обрати внивание, что мы внедряем зависимость через интерфейс EmployeeRepository,
      * а не через его реализацию EmployeeRepositoryImpl
      */
-    public EmployeeServiceImpl(@Qualifier("employeeRepositoryImpl") EmployeeRepository employeeRepository,
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository,
                                DepartmentRepository departmentRepository,
                                EmployeeMapper employeeMapper) {
         this.employeeRepository = employeeRepository;
