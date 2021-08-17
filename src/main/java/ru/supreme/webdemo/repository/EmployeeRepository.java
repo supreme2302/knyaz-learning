@@ -14,7 +14,7 @@ public interface EmployeeRepository {
 
     List<EmployeeEntity> findAllEmployees();
 
-    EmployeeEntity save(EmployeeEntity employeeEntity);
+    Long save(EmployeeEntity employeeEntity);
 
     void delete(Long id);
 

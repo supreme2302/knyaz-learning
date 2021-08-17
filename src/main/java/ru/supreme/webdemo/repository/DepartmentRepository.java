@@ -6,14 +6,13 @@ import java.util.List;
 
 public interface DepartmentRepository {
 
-
     List<DepartmentEntity> findAllDepartments();
 
     List<DepartmentEntity> findAllDepartmentsWithEmployees();
 
     DepartmentEntity findDepartmentById(Long id);
 
-    DepartmentEntity save(DepartmentEntity departmentEntity);
+    Long save(DepartmentEntity departmentEntity);
 
     void delete(Long id);
 

@@ -1,6 +1,5 @@
 package ru.supreme.webdemo.repository.impl;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.supreme.webdemo.model.entity.EmployeeEntity;
@@ -29,13 +28,13 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public EmployeeEntity save(EmployeeEntity employeeEntity) {
-        jdbcTemplate.update("insert into employee(department_id, name, position, salary) values (?, ?, ?, ?)",
+    public Long save(EmployeeEntity employeeEntity) {
+        return jdbcTemplate.queryForObject("insert into employee(department_id, name, position, salary) values (?, ?, ?, ?) returning id",
+                Long.class,
                 employeeEntity.getDepartmentId(),
                 employeeEntity.getName(),
                 employeeEntity.getPosition(),
                 employeeEntity.getSalary());
-        return employeeEntity;
     }
 
     @Override
@@ -45,13 +44,9 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public EmployeeEntity findEmployeeById(Long id) {
-        try {
-            return jdbcTemplate.queryForObject("select id as employee_id, name, position, salary, department_id " +
-                            "from employee where id = ? order by id asc",
-                    employeeRowMapper, id);
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        }
+        return jdbcTemplate.queryForObject("select id as employee_id, name, position, salary, department_id " +
+                        "from employee where id = ? order by id asc",
+                employeeRowMapper, id);
     }
 
     @Override

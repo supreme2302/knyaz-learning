@@ -3,6 +3,7 @@ package ru.supreme.webdemo.repository.rowmapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import ru.supreme.webdemo.model.entity.UserEntity;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

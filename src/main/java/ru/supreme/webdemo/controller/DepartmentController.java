@@ -3,9 +3,9 @@ package ru.supreme.webdemo.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.supreme.webdemo.errorMessages.ErrorMessageDTO;
 import ru.supreme.webdemo.model.dto.DepartmentWithEmployeeListDTO;
 import ru.supreme.webdemo.model.dto.DepartmentWithoutEmployeeListDTO;
-import ru.supreme.webdemo.model.dto.ErrorMessageDTO;
 import ru.supreme.webdemo.model.dto.UserDTO;
 import ru.supreme.webdemo.service.DepartmentService;
 
@@ -51,7 +51,7 @@ public class DepartmentController {
         if (userDTO == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be authenticated!");
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(departmentService.create(departmentDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(departmentService.create(departmentDTO, userDTO));
     }
 
     @DeleteMapping(value = "/{id}")
@@ -64,7 +64,7 @@ public class DepartmentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessageDTO("Wrong request. " +
                     "Please be more attentive and try again"));
         } else {
-            departmentService.delete(id);
+            departmentService.delete(id, userDTO);
             return ResponseEntity.status(HttpStatus.OK).body("Department was deleted!");
         }
     }
@@ -76,7 +76,7 @@ public class DepartmentController {
         if (userDTO == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be authenticated!");
         }
-        DepartmentWithoutEmployeeListDTO departmentWithoutEmployeeListDTO = departmentService.update(id, departmentDTO);
+        DepartmentWithoutEmployeeListDTO departmentWithoutEmployeeListDTO = departmentService.update(id, departmentDTO, userDTO);
         if (departmentWithoutEmployeeListDTO == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessageDTO("Wrong request. " +
                     "Please be more attentive and try again"));

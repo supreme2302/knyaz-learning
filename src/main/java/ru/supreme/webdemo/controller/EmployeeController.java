@@ -1,11 +1,12 @@
 package ru.supreme.webdemo.controller;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.supreme.webdemo.errorMessages.ErrorMessageDTO;
 import ru.supreme.webdemo.model.dto.EmployeeWithDepartmentIdDTO;
 import ru.supreme.webdemo.model.dto.EmployeeWithDepartmentNameDTO;
-import ru.supreme.webdemo.model.dto.ErrorMessageDTO;
 import ru.supreme.webdemo.model.dto.UserDTO;
 import ru.supreme.webdemo.service.EmployeeService;
 
@@ -56,12 +57,12 @@ public class EmployeeController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody EmployeeWithDepartmentIdDTO employee,
-                                    HttpSession httpSession) {
+                                    HttpSession httpSession) throws PSQLException {
         UserDTO userDTO = (UserDTO) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
         if (userDTO == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be authenticated!");
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.create(employee));
+        return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.create(employee, userDTO));
     }
 
     @DeleteMapping(value = "/{id}")
@@ -74,7 +75,7 @@ public class EmployeeController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessageDTO("Wrong request. " +
                     "Please be more attentive and try again"));
         } else {
-            employeeService.delete(id);
+            employeeService.delete(id, userDTO);
             return ResponseEntity.status(HttpStatus.OK).body("Employee was deleted!");
         }
     }
@@ -86,7 +87,7 @@ public class EmployeeController {
         if (userDTO == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be authenticated!");
         }
-        EmployeeWithDepartmentIdDTO employeeWithDepartmentIdDTO = employeeService.update(id, employeeDTO);
+        EmployeeWithDepartmentIdDTO employeeWithDepartmentIdDTO = employeeService.update(id, employeeDTO, userDTO);
         if (employeeWithDepartmentIdDTO == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessageDTO("Wrong request. " +
                     "Please be more attentive and try again"));

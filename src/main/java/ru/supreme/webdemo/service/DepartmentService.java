@@ -2,6 +2,7 @@ package ru.supreme.webdemo.service;
 
 import ru.supreme.webdemo.model.dto.DepartmentWithEmployeeListDTO;
 import ru.supreme.webdemo.model.dto.DepartmentWithoutEmployeeListDTO;
+import ru.supreme.webdemo.model.dto.UserDTO;
 
 import java.util.List;
 
@@ -13,9 +14,11 @@ public interface DepartmentService {
 
     DepartmentWithEmployeeListDTO findDepartmentById(Long id);
 
-    DepartmentWithEmployeeListDTO create(DepartmentWithEmployeeListDTO departmentDTO);
+    DepartmentWithEmployeeListDTO create(DepartmentWithEmployeeListDTO departmentDTO, UserDTO userDTO);
 
-    void delete(Long id);
+    void delete(Long id, UserDTO userDTO);
 
-    DepartmentWithoutEmployeeListDTO update(Long id, DepartmentWithoutEmployeeListDTO departmentDTO);
+    DepartmentWithoutEmployeeListDTO update(Long id,
+                                            DepartmentWithoutEmployeeListDTO departmentDTO,
+                                            UserDTO userDTO);
 }

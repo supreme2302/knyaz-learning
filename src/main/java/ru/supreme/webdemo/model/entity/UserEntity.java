@@ -9,7 +9,6 @@ public class UserEntity {
     private String password;
 
     public UserEntity() {
-
     }
 
     public UserEntity(Long id, String username, String password) {
