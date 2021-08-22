@@ -1,6 +1,5 @@
 package ru.supreme.webdemo.controller;
 
-import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,7 +56,7 @@ public class EmployeeController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody EmployeeWithDepartmentIdDTO employee,
-                                    HttpSession httpSession) throws PSQLException {
+                                    HttpSession httpSession) {
         UserDTO userDTO = (UserDTO) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
         if (userDTO == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be authenticated!");
