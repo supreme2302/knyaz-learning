@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.supreme.webdemo.errorMessages.ErrorMessageDTO;
+import ru.supreme.webdemo.errorMessages.RomkaCustomException;
 import ru.supreme.webdemo.model.dto.EmployeeWithDepartmentIdDTO;
 import ru.supreme.webdemo.model.dto.EmployeeWithDepartmentNameDTO;
 import ru.supreme.webdemo.model.dto.UserDTO;
@@ -29,7 +30,8 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public ResponseEntity<?> findAllEmployees(@RequestParam(name = "departmentId", required = false) Long id) {
+    public ResponseEntity<?> findAllEmployees(@RequestParam(name = "departmentId", required = false) Long id,
+                                              @RequestParam(name = "page", required = false) Integer page) throws RomkaCustomException {
         if (id != null) {
             List<EmployeeWithDepartmentNameDTO> list = employeeService.findEmployeesByDepartmentId(id);
             if (list == null) {
@@ -38,6 +40,10 @@ public class EmployeeController {
             } else {
                 return ResponseEntity.status(HttpStatus.OK).body(list);
             }
+        }
+        if (page != null) {
+            List<EmployeeWithDepartmentNameDTO> paging = employeeService.findPage(page);
+            return ResponseEntity.status(HttpStatus.OK).body(paging);
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(employeeService.findAllEmployees());
         }

@@ -3,6 +3,7 @@ package ru.supreme.webdemo.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.supreme.webdemo.enums.OperationType;
+import ru.supreme.webdemo.errorMessages.RomkaCustomException;
 import ru.supreme.webdemo.model.dto.EmployeeWithDepartmentIdDTO;
 import ru.supreme.webdemo.model.dto.EmployeeWithDepartmentNameDTO;
 import ru.supreme.webdemo.model.dto.UserDTO;
@@ -49,6 +50,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAllEmployees().stream()
                 .map(employeeEntity -> employeeMapper.entityToEmployeeWithDepartmentNameDTO(employeeEntity,
                         departmentRepository.findDepartmentById(employeeEntity.getDepartmentId()).getDirection()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmployeeWithDepartmentNameDTO> findPage(Integer pageNumber) throws RomkaCustomException {
+        return employeeRepository.findPage(pageNumber).stream()
+                .map(employeeEntity -> employeeMapper.entityToEmployeeWithDepartmentNameDTO(employeeEntity, departmentRepository.findDepartmentById(employeeEntity.getDepartmentId()).getDirection()))
                 .collect(Collectors.toList());
     }
 

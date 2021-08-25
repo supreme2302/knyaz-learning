@@ -2,6 +2,7 @@ package ru.supreme.webdemo.repository.impl;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.supreme.webdemo.errorMessages.RomkaCustomException;
 import ru.supreme.webdemo.model.entity.EmployeeEntity;
 import ru.supreme.webdemo.repository.EmployeeRepository;
 import ru.supreme.webdemo.repository.rowmapper.EmployeeRowMapper;
@@ -58,5 +59,19 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
                 employeeEntity.getSalary(),
                 id);
         return employeeEntity;
+    }
+
+    @Override
+    public List<EmployeeEntity> findPage(Integer pageNumber) throws RomkaCustomException {
+        if (pageNumber < 1) {
+            throw new RomkaCustomException("Page number must be > 0");
+        }
+
+        Integer limit = 3;
+        return jdbcTemplate.query("select id as employee_id, name, position, salary, department_id " +
+                        "from employee order by id asc limit ? offset ?",
+                employeeRowMapper,
+                limit,
+                ((limit * pageNumber) - limit));
     }
 }
