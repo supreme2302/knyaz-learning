@@ -9,6 +9,8 @@ import ru.supreme.webdemo.repository.rowmapper.EmployeeRowMapper;
 
 import java.util.List;
 
+import static ru.supreme.webdemo.WebDemoConst.PAGE_SIZE;
+
 @Repository
 public class EmployeeRepositoryImpl implements EmployeeRepository {
 
@@ -64,14 +66,13 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     @Override
     public List<EmployeeEntity> findPage(Integer pageNumber) throws RomkaCustomException {
         if (pageNumber < 1) {
-            throw new RomkaCustomException("Page number must be > 0");
+            throw new RomkaCustomException();
         }
 
-        Integer limit = 3;
         return jdbcTemplate.query("select id as employee_id, name, position, salary, department_id " +
                         "from employee order by id asc limit ? offset ?",
                 employeeRowMapper,
-                limit,
-                ((limit * pageNumber) - limit));
+                PAGE_SIZE,
+                ((PAGE_SIZE * pageNumber) - PAGE_SIZE));
     }
 }
