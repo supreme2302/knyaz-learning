@@ -1,12 +1,18 @@
 package ru.supreme.webdemo.controller;
 
+import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.supreme.webdemo.model.dto.UserDTO;
 import ru.supreme.webdemo.service.UserService;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.constraints.Size;
 
 import static ru.supreme.webdemo.WebDemoConst.USER_SESSION_ATTRIBUTE;
 
@@ -52,8 +58,9 @@ public class AuthorizationController {
         return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
 
+
     @PostMapping(value = "/reg")
-    public ResponseEntity<?> registration(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> registration(@Valid @RequestBody UserDTO userDTO) {
         if (userService.registration(userDTO) != null) {
             return ResponseEntity.status(HttpStatus.OK).body("You have been registered!");
         } else {

@@ -11,6 +11,7 @@ import ru.supreme.webdemo.model.dto.UserDTO;
 import ru.supreme.webdemo.service.EmployeeService;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 
 import static ru.supreme.webdemo.WebDemoConst.USER_SESSION_ATTRIBUTE;
@@ -61,7 +62,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody EmployeeWithDepartmentIdDTO employee,
+    public ResponseEntity<?> create(@Valid @RequestBody EmployeeWithDepartmentIdDTO employee,
                                     HttpSession httpSession) {
         UserDTO userDTO = (UserDTO) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
         if (userDTO == null) {

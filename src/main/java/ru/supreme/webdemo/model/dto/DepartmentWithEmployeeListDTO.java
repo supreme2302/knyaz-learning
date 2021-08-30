@@ -2,12 +2,14 @@ package ru.supreme.webdemo.model.dto;
 
 import ru.supreme.webdemo.model.entity.EmployeeEntity;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 public class DepartmentWithEmployeeListDTO {
 
     private Long id;
 
+    @NotBlank(message = "Please, specify department working direction")
     private String direction;
 
     private Float salaryCoefficient;

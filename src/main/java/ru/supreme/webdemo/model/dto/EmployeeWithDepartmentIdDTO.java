@@ -1,5 +1,6 @@
 package ru.supreme.webdemo.model.dto;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class EmployeeWithDepartmentIdDTO {
@@ -19,6 +20,7 @@ public class EmployeeWithDepartmentIdDTO {
      */
     private String position;
 
+    @NotNull(message = "DepartmentId field couldn't be empty!")
     private Long departmentId;
 
     private BigDecimal salary;

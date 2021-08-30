@@ -10,6 +10,7 @@ import ru.supreme.webdemo.model.dto.UserDTO;
 import ru.supreme.webdemo.service.DepartmentService;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 
 import static ru.supreme.webdemo.WebDemoConst.USER_SESSION_ATTRIBUTE;
@@ -46,7 +47,7 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody DepartmentWithEmployeeListDTO departmentDTO, HttpSession httpSession) {
+    public ResponseEntity<?> create(@Valid @RequestBody DepartmentWithEmployeeListDTO departmentDTO, HttpSession httpSession) {
         UserDTO userDTO = (UserDTO) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
         if (userDTO == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be authenticated!");
