@@ -1,18 +1,13 @@
 package ru.supreme.webdemo.controller;
 
-import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.supreme.webdemo.model.dto.UserDTO;
 import ru.supreme.webdemo.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.constraints.Size;
 
 import static ru.supreme.webdemo.WebDemoConst.USER_SESSION_ATTRIBUTE;
 
@@ -27,7 +22,7 @@ public class AuthorizationController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?> login(@RequestBody UserDTO userDTO, HttpSession httpSession) {
+    public ResponseEntity<?> login(@Valid @RequestBody UserDTO userDTO, HttpSession httpSession) {
         Object sessionUserContext = httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
         if (sessionUserContext != null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Already authenticated!");

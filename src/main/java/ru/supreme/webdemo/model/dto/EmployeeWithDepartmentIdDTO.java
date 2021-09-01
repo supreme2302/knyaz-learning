@@ -16,7 +16,7 @@ public class EmployeeWithDepartmentIdDTO {
     private String name;
 
     /**
-     * Должность работника
+     * Должность работника.
      */
     private String position;
 
