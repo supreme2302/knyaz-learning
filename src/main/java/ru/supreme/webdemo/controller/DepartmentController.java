@@ -2,6 +2,7 @@ package ru.supreme.webdemo.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.supreme.webdemo.errorMessages.ErrorMessageDTO;
 import ru.supreme.webdemo.model.dto.DepartmentWithEmployeeListDTO;
@@ -47,7 +48,7 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody DepartmentWithEmployeeListDTO departmentDTO, HttpSession httpSession) {
+    public ResponseEntity<?> create(@Valid @RequestBody DepartmentWithEmployeeListDTO departmentDTO, BindingResult bindingResult, HttpSession httpSession) {
         UserDTO userDTO = (UserDTO) httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
         if (userDTO == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be authenticated!");
