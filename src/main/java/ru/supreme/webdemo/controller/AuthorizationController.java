@@ -7,6 +7,7 @@ import ru.supreme.webdemo.model.dto.UserDTO;
 import ru.supreme.webdemo.service.UserService;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import static ru.supreme.webdemo.WebDemoConst.USER_SESSION_ATTRIBUTE;
 
@@ -21,7 +22,7 @@ public class AuthorizationController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?> login(@RequestBody UserDTO userDTO, HttpSession httpSession) {
+    public ResponseEntity<?> login(@Valid @RequestBody UserDTO userDTO, HttpSession httpSession) {
         Object sessionUserContext = httpSession.getAttribute(USER_SESSION_ATTRIBUTE);
         if (sessionUserContext != null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Already authenticated!");
@@ -52,8 +53,9 @@ public class AuthorizationController {
         return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
 
+
     @PostMapping(value = "/reg")
-    public ResponseEntity<?> registration(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> registration(@Valid @RequestBody UserDTO userDTO) {
         if (userService.registration(userDTO) != null) {
             return ResponseEntity.status(HttpStatus.OK).body("You have been registered!");
         } else {

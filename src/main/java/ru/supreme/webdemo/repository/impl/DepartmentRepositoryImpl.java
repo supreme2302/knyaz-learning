@@ -56,11 +56,11 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
     }
 
     @Override
-    public DepartmentEntity save(DepartmentEntity departmentEntity) {
-        jdbcTemplate.update("insert into department (direction, salary_coefficient) values (?, ?)",
+    public Long save(DepartmentEntity departmentEntity) {
+        return jdbcTemplate.queryForObject("insert into department (direction, salary_coefficient) values (?, ?) returning id",
+                Long.class,
                 departmentEntity.getDirection(),
                 departmentEntity.getSalaryCoefficient());
-        return departmentEntity;
     }
 
     @Override

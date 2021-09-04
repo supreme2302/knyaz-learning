@@ -1,16 +1,24 @@
 package ru.supreme.webdemo.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.supreme.webdemo.enums.OperationType;
+import ru.supreme.webdemo.errorMessages.RomkaCustomException;
 import ru.supreme.webdemo.model.dto.EmployeeWithDepartmentIdDTO;
 import ru.supreme.webdemo.model.dto.EmployeeWithDepartmentNameDTO;
+import ru.supreme.webdemo.model.dto.UserDTO;
 import ru.supreme.webdemo.model.entity.DepartmentEntity;
+import ru.supreme.webdemo.model.entity.EmployeeAuditEntity;
 import ru.supreme.webdemo.model.entity.EmployeeEntity;
 import ru.supreme.webdemo.repository.DepartmentRepository;
+import ru.supreme.webdemo.repository.EmployeeAuditRepository;
 import ru.supreme.webdemo.repository.EmployeeRepository;
 import ru.supreme.webdemo.service.EmployeeService;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -21,39 +29,65 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final DepartmentRepository departmentRepository;
 
+    private final EmployeeAuditRepository employeeAuditRepository;
+
     /**
      * Обрати внивание, что мы внедряем зависимость через интерфейс EmployeeRepository,
      * а не через его реализацию EmployeeRepositoryImpl
      */
     public EmployeeServiceImpl(EmployeeRepository employeeRepository,
                                DepartmentRepository departmentRepository,
-                               EmployeeMapper employeeMapper) {
+                               EmployeeMapper employeeMapper,
+                               EmployeeAuditRepository employeeAuditRepository) {
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
         this.employeeMapper = employeeMapper;
+        this.employeeAuditRepository = employeeAuditRepository;
     }
 
     @Override
     public List<EmployeeWithDepartmentNameDTO> findAllEmployees() {
-        List<EmployeeWithDepartmentNameDTO> employeeDTOList = new ArrayList<>();
-        List<EmployeeEntity> employeeEntityList = employeeRepository.findAllEmployees();
-        for (EmployeeEntity employee : employeeEntityList) {
-            DepartmentEntity departmentEntity = departmentRepository.findDepartmentById(employee.getDepartmentId());
-            EmployeeWithDepartmentNameDTO employeeDTO = employeeMapper.entityToEmployeeWithDepartmentNameDTO(employee, departmentEntity.getDirection());
-            employeeDTOList.add(employeeDTO);
-        }
-        return employeeDTOList;
+        return employeeRepository.findAllEmployees().stream()
+                .map(employeeEntity -> employeeMapper.entityToEmployeeWithDepartmentNameDTO(employeeEntity,
+                        departmentRepository.findDepartmentById(employeeEntity.getDepartmentId()).getDirection()))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public EmployeeWithDepartmentIdDTO create(EmployeeWithDepartmentIdDTO employee) {
-        EmployeeEntity employeeEntity = employeeRepository.save(employeeMapper.dtoToEntity(employee));
-        return employeeMapper.entityToEmployeeWithDepartmentIdDTO(employeeEntity);
+    public List<EmployeeWithDepartmentNameDTO> findPage(Integer pageNumber) throws RomkaCustomException {
+        return employeeRepository.findPage(pageNumber).stream()
+                .map(employeeEntity -> employeeMapper.entityToEmployeeWithDepartmentNameDTO(employeeEntity, departmentRepository.findDepartmentById(employeeEntity.getDepartmentId()).getDirection()))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void delete(Long id) {
+    @Transactional
+    public EmployeeWithDepartmentIdDTO create(EmployeeWithDepartmentIdDTO employee, UserDTO userDTO) {
+        Long id = employeeRepository.save(employeeMapper.dtoToEntity(employee));
+        /**null на id - это как заглушка
+         */
+        EmployeeAuditEntity employeeAudit = new EmployeeAuditEntity(null,
+                userDTO.getUsername(),
+                id,
+                OperationType.CREATE.getValue(),
+                LocalDateTime.now());
+        employeeAuditRepository.save(employeeAudit);
+        /**сделал такую обертку, чтобы можно было передать id в респонс от контроллера. до этого id возвращался null
+         */
+        employee.setId(id);
+        return employeeMapper.entityToEmployeeWithDepartmentIdDTO(employeeMapper.dtoToEntity(employee));
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id, UserDTO userDTO) {
         employeeRepository.delete(id);
+        EmployeeAuditEntity employeeAudit = new EmployeeAuditEntity(null,
+                userDTO.getUsername(),
+                id,
+                OperationType.DELETE.getValue(),
+                LocalDateTime.now());
+        employeeAuditRepository.save(employeeAudit);
     }
 
     @Override
@@ -85,7 +119,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeWithDepartmentIdDTO update(Long id, EmployeeWithDepartmentIdDTO employeeDTO) {
+    @Transactional
+    public EmployeeWithDepartmentIdDTO update(Long id, EmployeeWithDepartmentIdDTO employeeDTO, UserDTO userDTO) {
         EmployeeEntity newEmployeeEntity = employeeRepository.findEmployeeById(id);
         if (newEmployeeEntity == null) {
             return null;
@@ -103,6 +138,12 @@ public class EmployeeServiceImpl implements EmployeeService {
                 newEmployeeEntity.setSalary(employeeDTO.getSalary());
             }
             EmployeeEntity employee = employeeRepository.update(id, newEmployeeEntity);
+            EmployeeAuditEntity employeeAudit = new EmployeeAuditEntity(null,
+                    userDTO.getUsername(),
+                    id,
+                    OperationType.UPDATE.getValue(),
+                    LocalDateTime.now());
+            employeeAuditRepository.save(employeeAudit);
             return employeeMapper.entityToEmployeeWithDepartmentIdDTO(employee);
         }
     }

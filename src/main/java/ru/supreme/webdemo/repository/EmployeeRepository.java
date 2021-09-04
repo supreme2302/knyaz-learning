@@ -1,5 +1,6 @@
 package ru.supreme.webdemo.repository;
 
+import ru.supreme.webdemo.errorMessages.RomkaCustomException;
 import ru.supreme.webdemo.model.entity.EmployeeEntity;
 
 import java.util.List;
@@ -14,7 +15,9 @@ public interface EmployeeRepository {
 
     List<EmployeeEntity> findAllEmployees();
 
-    EmployeeEntity save(EmployeeEntity employeeEntity);
+    List<EmployeeEntity> findPage(Integer pageNumber) throws RomkaCustomException;
+
+    Long save(EmployeeEntity employeeEntity);
 
     void delete(Long id);
 
